@@ -19,11 +19,11 @@ periodically; not unlike Fetchmail but more lightweight.
 
 Run the following if you haven't already:
 
-	gem sources -a http://gemcutter.org
+    gem sources -a http://gemcutter.org
 
 Install the gem:
 
-	sudo gem install growl-atom
+    sudo gem install growl-atom
 
 === Install a local config and LaunchAgent
 
@@ -31,32 +31,34 @@ This will install a config and LaunchAgent for the current user. The config file
 lists all Atom feeds to monitor and the OS X LaunchAgent will run the script at timed
 intervals.
 
-	growl-atom install
+    growl-atom install
 	
 === Add feeds to your config file
 
 The install command will generate an example config file in ~/.growl-atom/config You can add
 feeds and config options to this file. This is a YAML file.
 
-	---
+* * * 
 	
-	global:
-	 
-	feeds:
-	 - name: Gmail
-	   url: https://mail.google.com/mail/feed/atom/
-	   auth_user: your_gmail_username
-	   auth_pass: your_gmail_password
-	   image: ~/.growl-atom/icons/gmail.png
-	   title: author/email
-	   message: title
-	   sticky: false
+    global:
+ 
+        feeds:
+        - name: Gmail
+          url: https://mail.google.com/mail/feed/atom/
+          auth_user: your_gmail_username
+          auth_pass: your_gmail_password
+          image: ~/.growl-atom/icons/gmail.png
+          title: author/email
+          message: title
+          sticky: false
+
+* * * 
 
 === Test the config 
 	
 Once you've added new feeds to the config you can test it by running:
 
-	growl-atom check
+    growl-atom check
 
 This is the same command that will be run periodically by the LaunchAgent. Any errors should 
 show up here, if you are experiencing errors when the LaunchAgent is running then check log messages 
