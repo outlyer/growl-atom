@@ -1,6 +1,6 @@
 require 'rubygems'
-gem 'growl', '=1.0.3'
-require 'growl'
+gem 'terminal-notifier', '=1.4.2'
+require 'terminal-notifier'
 require 'yaml'
 require 'digest/md5'
 require 'uri'
@@ -95,15 +95,14 @@ module GrowlAtom
 			if (!system("grep #{id} #{cache_file} > /dev/null")) 
 		
 				growl_options = {}
-				
+        
 				growl_options['name'] = options['name']
 				growl_options['sticky'] = options['sticky']
 				growl_options['title'] = entry.elements[options['title']].text
 				growl_options['message'] = entry.elements[options['message']].text				
-				
 				growl_options['image'] = File.expand_path(options['image']) unless(options['image'] == nil)
-								
-				Growl.notify(growl_options['message'], growl_options)
+				
+        TerminalNotifier.notify(growl_options['message'],:title => growl_options['title'],:options => growl_options['name'])				
 				
 			 	system("echo #{id} >> #{cache_file}")
 			 	system("tail -n 500 #{cache_file} > #{cache_file}.tmp")
