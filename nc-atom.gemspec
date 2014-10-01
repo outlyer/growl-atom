@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.executables << 'nc-atom'
   s.files = ["config", "nc.atom.plist", "lib/nc-atom.rb", "icons/gmail.icns"]
   s.require_path = "lib"
-  s.has_rdoc = false
   s.add_dependency('terminal-notifier', '> 1.6.0')
   s.description = "Monitor Atom feeds (like Gmail) and create Mac OS X notifications"
 end

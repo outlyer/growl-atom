@@ -32,7 +32,7 @@
 $:.push(File.dirname(__FILE__) + "/../lib")
 require 'rubygems'
 require 'nc-atom'
-require 'rdoc/usage'
+require 'optparse'
 
 user_dir = File.expand_path('~')
 gem_dir = NCAtom.gem_dir
@@ -40,14 +40,15 @@ launch_agent = "nc.atom"
 launch_agent_plist = launch_agent + ".plist"
 launch_agents_dir = user_dir + "/Library/LaunchAgents/"
 
-case ARGV[0]
-	when 'check'
-	
-		NCAtom.check(File.join(user_dir, '.nc-atom'))
-		exit
-		
-	when 'install'
-		
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: nc-atom [options]"
+
+  opts.on("-c", "--check", "Check mail now") { NCAtom.check(File.join(user_dir, '.nc-atom')); exit }
+
+  opts.on("-i", "--install", "Install base configuration file") {
+
 		# Create user config dir
 		system 'mkdir -p ' + File.join(user_dir, '.nc-atom/caches')
 		system "cp -i #{File.join(gem_dir, 'config')} #{File.join(user_dir, '.nc-atom/config')}"
@@ -63,9 +64,8 @@ case ARGV[0]
 		system "launchctl load #{launch_agents_dir + launch_agent_plist}"
 		system "launchctl start #{launch_agent}"
 		exit
-		
-	when 'uninstall'
-	
+  }
+opts.on("-u", "--uninstall", "Remove base configuration file") {
 		puts("Are you sure you want to uninstall? This will delete your config file. (y/n)") 
 		input=STDIN.gets
 						
@@ -79,14 +79,15 @@ case ARGV[0]
 		system "rm #{launch_agents_dir + launch_agent_plist}"			
 		system 'rm -rdf ' + File.join(user_dir, '.nc-atom')
 		exit
-		
-	when 'clear-caches'
-	
-		system 'rm -rdf ' + File.join(user_dir, '.nc-atom/caches/*')
+	}
+
+opts.on("-f","--clear-caches","Reset checked mail cache") {
+	system 'rm -rdf ' + File.join(user_dir, '.nc-atom/caches/*')
 		exit
-		
-	else
-	
-		RDoc::usage
-		exit		
-end
+}
+
+end.parse!
+
+p options
+
+
