@@ -1,6 +1,6 @@
 ---
 
-# Example config for growl-atom, note this is a YAML file, see http://yaml.org/
+# Example config for nc-atom, note this is a YAML file, see http://yaml.org/
 
 # Available options:
 #
@@ -11,7 +11,7 @@
 #  proxy_pass: password
 #
 # feeds:
-#  name: Growl Application Name
+#  name: Application Name
 #  url: http://your.feed.com
 #  auth_user: http_user
 #  auth_pass: http_pass
@@ -34,7 +34,7 @@ feeds:
    url: https://mail.google.com/mail/feed/atom/
    auth_user: your_gmail_username
    auth_pass: your_gmail_password
-   image: ~/.growl-atom/icons/gmail.png
+   image: ~/.nc-atom/icons/gmail.png
    title: author/email
    message: title
    sticky: false

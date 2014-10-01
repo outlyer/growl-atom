@@ -1,13 +1,13 @@
 = nc-atom
 
-A script to monitor Atom feeds and create Mountain Lion notifications for new entries. It's forked from the Growl-Atom (https://github.com/matth/growl-atom) project from Matt Haynes and mainly just swaps Growl for Mountain Lion's Notification Center. It's nice because it doesn't actually have any sort of daemon running, but uses the normal LaunchDaemons to check
+A script to monitor Atom feeds and create Mac OS X notifications for new entries. It's forked from the nc-atom (https://github.com/matth/nc-atom) project from Matt Haynes and mainly just swaps Growl for Mac OS X's Notification Center. It's nice because it doesn't actually have any sort of daemon running, but uses the normal LaunchDaemons to check
 periodically; not unlike Fetchmail but more lightweight. 
 
 == Prerequisites
 
-* Mac OS X 10.8 Mountain Lion
-* Terminal Notifier (https://github.com/alloy/terminal-notifier/tree/master/Ruby)
-* Ruby 1.8+, installed by default on Leopard
+* Mac OS X 10.9 Mac OS X
+* Terminal Notifier (https://github.com/alloy/terminal-notifier/)
+* Ruby 1.9+, installed by default on Mavericks
  
 == Installation
 
@@ -15,15 +15,13 @@ periodically; not unlike Fetchmail but more lightweight.
 
     gem install terminal-notifier
 
-> For extra credit, build your own copy of the Terminal Notifier, add the app.icns from this repository and you'll get the actual Gmail icon. I don't have a code signing key so I can't build one for you. 
-
 Run the following if you haven't already:
 
     gem sources -a http://gemcutter.org
 
 Install the gem:
 
-    sudo gem install growl-atom
+    sudo gem install nc-atom
 
 === Install a local config and LaunchAgent
 
@@ -31,11 +29,11 @@ This will install a config and LaunchAgent for the current user. The config file
 lists all Atom feeds to monitor and the OS X LaunchAgent will run the script at timed
 intervals.
 
-    growl-atom install
+    nc-atom install
 	
 === Add feeds to your config file
 
-The install command will generate an example config file in ~/.growl-atom/config You can add
+The install command will generate an example config file in ~/.nc-atom/config You can add
 feeds and config options to this file. This is a YAML file.
 
 * * * 
@@ -47,7 +45,7 @@ feeds and config options to this file. This is a YAML file.
           url: https://mail.google.com/mail/feed/atom/
           auth_user: your_gmail_username
           auth_pass: your_gmail_password
-          image: ~/.growl-atom/icons/gmail.png
+          image: ~/.nc-atom/icons/gmail.png
           title: author/email
           message: title
           sticky: false
@@ -58,15 +56,15 @@ feeds and config options to this file. This is a YAML file.
 	
 Once you've added new feeds to the config you can test it by running:
 
-    growl-atom check
+    nc-atom check
 
 This is the same command that will be run periodically by the LaunchAgent. Any errors should 
 show up here, if you are experiencing errors when the LaunchAgent is running then check log messages 
 in /Applications/Utilities/Console
 
-== Using growl-atom behind a web proxy
+== Using nc-atom behind a web proxy
 
-If your internet connection lives behind a proxy you can configure growl-atom to make all
+If your internet connection lives behind a proxy you can configure nc-atom to make all
 connections through this. Add the following to the global config or on a per feed basis.
 
 	global:
@@ -75,7 +73,7 @@ connections through this. Add the following to the global config or on a per fee
 	 proxy_user: username (if req.)
 	 proxy_pass: password (if req.)	 
 
-== Using growl-atom with HTTP authentication
+== Using nc-atom with HTTP authentication
 
 If you feed requires http athentication you can provide the username and password in the config file
 
@@ -85,38 +83,38 @@ If you feed requires http athentication you can provide the username and passwor
 	   auth_user: your_username
 	   auth_pass: your_password
 
-== Using growl-atom with client certs 
+== Using nc-atom with client certs 
 
-You can use growl-atom to access feeds requiring a client SSL certificate. You need to provide a
+You can use nc-atom to access feeds requiring a client SSL certificate. You need to provide a
 .pem file with the key and cert included. If you have exported your cert from your browser it may 
 be in a .p12 format, you can convert it to a .pem with the following command:
 
-	openssl pkcs12 -in /path/to/your/cert.p12 -nodes -out ~/.growl-atom/certs/cert.pem
+	openssl pkcs12 -in /path/to/your/cert.p12 -nodes -out ~/.nc-atom/certs/cert.pem
 	
-You can provide the path to the pem file in the growl-atom config:
+You can provide the path to the pem file in the nc-atom config:
 
 	feeds:
 	 - name: Feed needing Cert 
 	   url: https://protectedhost.com/feed/atom/
-	   cert: ~/.growl-atom/certs/cert.pem
+	   cert: ~/.nc-atom/certs/cert.pem
 
 == Clearing the caches
 
-growl-atom works by caching the Atom entry ID's of all messages it has alrady notified you of. It
+nc-atom works by caching the Atom entry ID's of all messages it has alrady notified you of. It
 can sometimes be usefule to clear these caches, especially when debugging.
 
-	growl-atom clear-caches
+	nc-atom clear-caches
 
 == Uninstalling
 
 Uninstalling is simple enough, first uninstall the config, caches and LaunchAgent from the local
 user's profile
 
-	growl-atom uninstall
+	nc-atom uninstall
 
 Then uninstall the gem
 
-	sudo gem uninstall growl-atom -a
+	sudo gem uninstall nc-atom -a
 	
 == License:
 

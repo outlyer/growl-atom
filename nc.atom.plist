@@ -3,10 +3,10 @@
 <plist version="1.0">
 	<dict>
 		<key>Label</key>
-		<string>growl.atom</string>
+		<string>nc.atom</string>
 		<key>ProgramArguments</key>
 		<array>
-			<string>growl-atom</string>
+			<string>nc-atom</string>
 			<string>check</string>			
 		</array>
 		<key>StartInterval</key>

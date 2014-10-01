@@ -1,16 +1,16 @@
 $:.unshift 'lib'
-require 'growl-atom'
+require 'nc-atom'
 
 task :uninstall do
 	# Remove gem
-	sh "gem uninstall growl-atom -a"
+	sh "gem uninstall nc-atom -a"
 end
 
 task :install => [:gem] do
 	# Install local gem
-	sh "gem install -l growl-atom-#{GrowlAtom::VERSION}.gem"
+	sh "gem install -l #{ncAtom::VERSION}.gem"
 end
 
 task :gem do
-	sh 'gem build growl-atom.gemspec'
+	sh 'gem build nc-atom.gemspec'
 end

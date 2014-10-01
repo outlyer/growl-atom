@@ -1,5 +1,5 @@
 require 'rubygems'
-gem 'terminal-notifier', '=1.4.2'
+gem 'terminal-notifier', '>1.6.0'
 require 'terminal-notifier'
 require 'yaml'
 require 'digest/md5'
@@ -8,22 +8,22 @@ require 'net/http'
 require 'net/https'
 require 'rexml/document'
 
-module GrowlAtom
+module ncAtom
 
 	VERSION = "0.0.6"
 	
 	class Error < StandardError; end
 
 	# The Installation directory of this gem package	
-	def GrowlAtom.gem_dir 
+	def ncAtom.gem_dir 
 		File.expand_path(File.join(File.dirname(__FILE__), '..'))
 	end
 	
 	# Check all URLs in this config file
-	def GrowlAtom.check(config_dir)
+	def ncAtom.check(config_dir)
 		
 		default_options = {
-			:name => 'growl-atom',
+			:name => 'nc-atom',
 			:title => 'title',
 			:message => 'summary',
 			:sticky => false
@@ -41,7 +41,7 @@ module GrowlAtom
 	end
 	
 	# Download feed respecting any http proxy, auth type stuff set in options
-	def GrowlAtom.get_feed(options)
+	def ncAtom.get_feed(options)
 	
 		raise Error, "No url set for feed" unless options['url'] != nil
 		
@@ -80,7 +80,7 @@ module GrowlAtom
 	end
 	
 	# Parse feed xml
-	def GrowlAtom.parse_feed(feed_xml, options, cache_dir)
+	def ncAtom.parse_feed(feed_xml, options, cache_dir)
 		
 		cache_file = File.join(cache_dir, Digest::MD5.hexdigest(options['url']))
 		system("touch #{cache_file}")
@@ -94,15 +94,15 @@ module GrowlAtom
 			
 			if (!system("grep #{id} #{cache_file} > /dev/null")) 
 		
-				growl_options = {}
+				nc_options = {}
         
-				growl_options['name'] = options['name']
-				growl_options['sticky'] = options['sticky']
-				growl_options['title'] = entry.elements[options['title']].text
-				growl_options['message'] = entry.elements[options['message']].text				
-				growl_options['image'] = File.expand_path(options['image']) unless(options['image'] == nil)
+				nc_options['name'] = options['name']
+				nc_options['sticky'] = options['sticky']
+				nc_options['title'] = entry.elements[options['title']].text
+				nc_options['message'] = entry.elements[options['message']].text				
+				nc_options['image'] = File.expand_path(options['image']) unless(options['image'] == nil)
 				
-        TerminalNotifier.notify(growl_options['message'],:title => growl_options['title'],:options => growl_options['name'])				
+        TerminalNotifier.notify(nc_options['message'],:title => nc_options['title'],:options => nc_options['name'])				
 				
 			 	system("echo #{id} >> #{cache_file}")
 			 	system("tail -n 500 #{cache_file} > #{cache_file}.tmp")

@@ -2,56 +2,56 @@
 
 # == Synopsis
 #
-# Makes growl notifications from new Atom entries. 
+# Makes Mac OS X notifications from new Atom entries. 
 # 
 # == Usage
 #
-# growl-atom [COMMAND]
+# nc-atom [COMMAND]
 #
 # help:
 #	Show this help page
 #
 # check:
 #	Check the current feeds defined in the current user's config file, found at
-#	~/.growl-atom/config This command is run from the LaunchAgent setup by the install command
+#	~/.nc-atom/config This command is run from the LaunchAgent setup by the install command
 #
 # install:
 #	Install this for the current user, installs an OS X LaunchAgent (daemon process) for 
-#	the current user and creates an empty config file in ~/.growl-atom/config
+#	the current user and creates an empty config file in ~/.nc-atom/config
 #
 # uninstall:
 #	Uninstall the LaunchAgent for the current user, also delete all config and cache
-#	files under ~/.growl-atom/
+#	files under ~/.nc-atom/
 #
 # clear-caches:
 #	Clear all cache files for the current user. Cache files stop notifications being repeated.
 #	Atom entry IDs are stored in them once a notification has been shown. They can be found in
-#	~/.growl-atom/caches/
+#	~/.nc-atom/caches/
 #
 
 $:.push(File.dirname(__FILE__) + "/../lib")
 require 'rubygems'
-require 'growl-atom'
+require 'nc-atom'
 require 'rdoc/usage'
 
 user_dir = File.expand_path('~')
-gem_dir = GrowlAtom.gem_dir
-launch_agent = "growl.atom"
+gem_dir = ncAtom.gem_dir
+launch_agent = "nc.atom"
 launch_agent_plist = launch_agent + ".plist"
 launch_agents_dir = user_dir + "/Library/LaunchAgents/"
 
 case ARGV[0]
 	when 'check'
 	
-		GrowlAtom.check(File.join(user_dir, '.growl-atom'))
+		ncAtom.check(File.join(user_dir, '.nc-atom'))
 		exit
 		
 	when 'install'
 		
 		# Create user config dir
-		system 'mkdir -p ' + File.join(user_dir, '.growl-atom/caches')
-		system "cp -i #{File.join(gem_dir, 'config')} #{File.join(user_dir, '.growl-atom/config')}"
-		system "cp -ri #{File.join(gem_dir, 'icons')} #{File.join(user_dir, '.growl-atom/icons')}"		
+		system 'mkdir -p ' + File.join(user_dir, '.nc-atom/caches')
+		system "cp -i #{File.join(gem_dir, 'config')} #{File.join(user_dir, '.nc-atom/config')}"
+		system "cp -ri #{File.join(gem_dir, 'icons')} #{File.join(user_dir, '.nc-atom/icons')}"		
 		
 		# Create Launch Agent dir
 		if (!File.directory?(launch_agents_dir))
@@ -77,12 +77,12 @@ case ARGV[0]
 		# Remove Launch Agent
 		system "launchctl unload #{launch_agents_dir + launch_agent_plist}" 
 		system "rm #{launch_agents_dir + launch_agent_plist}"			
-		system 'rm -rdf ' + File.join(user_dir, '.growl-atom')
+		system 'rm -rdf ' + File.join(user_dir, '.nc-atom')
 		exit
 		
 	when 'clear-caches'
 	
-		system 'rm -rdf ' + File.join(user_dir, '.growl-atom/caches/*')
+		system 'rm -rdf ' + File.join(user_dir, '.nc-atom/caches/*')
 		exit
 		
 	else
