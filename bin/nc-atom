@@ -35,7 +35,7 @@ require 'nc-atom'
 require 'rdoc/usage'
 
 user_dir = File.expand_path('~')
-gem_dir = ncAtom.gem_dir
+gem_dir = NCAtom.gem_dir
 launch_agent = "nc.atom"
 launch_agent_plist = launch_agent + ".plist"
 launch_agents_dir = user_dir + "/Library/LaunchAgents/"
@@ -43,7 +43,7 @@ launch_agents_dir = user_dir + "/Library/LaunchAgents/"
 case ARGV[0]
 	when 'check'
 	
-		ncAtom.check(File.join(user_dir, '.nc-atom'))
+		NCAtom.check(File.join(user_dir, '.nc-atom'))
 		exit
 		
 	when 'install'

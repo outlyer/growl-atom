@@ -8,19 +8,19 @@ require 'net/http'
 require 'net/https'
 require 'rexml/document'
 
-module ncAtom
+module NCAtom
 
-	VERSION = "0.0.6"
+	VERSION = "0.1.0"
 	
 	class Error < StandardError; end
 
 	# The Installation directory of this gem package	
-	def ncAtom.gem_dir 
+	def NCAtom.gem_dir 
 		File.expand_path(File.join(File.dirname(__FILE__), '..'))
 	end
 	
 	# Check all URLs in this config file
-	def ncAtom.check(config_dir)
+	def NCAtom.check(config_dir)
 		
 		default_options = {
 			:name => 'nc-atom',
@@ -41,7 +41,7 @@ module ncAtom
 	end
 	
 	# Download feed respecting any http proxy, auth type stuff set in options
-	def ncAtom.get_feed(options)
+	def NCAtom.get_feed(options)
 	
 		raise Error, "No url set for feed" unless options['url'] != nil
 		
@@ -80,7 +80,7 @@ module ncAtom
 	end
 	
 	# Parse feed xml
-	def ncAtom.parse_feed(feed_xml, options, cache_dir)
+	def NCAtom.parse_feed(feed_xml, options, cache_dir)
 		
 		cache_file = File.join(cache_dir, Digest::MD5.hexdigest(options['url']))
 		system("touch #{cache_file}")
@@ -102,7 +102,12 @@ module ncAtom
 				nc_options['message'] = entry.elements[options['message']].text				
 				nc_options['image'] = File.expand_path(options['image']) unless(options['image'] == nil)
 				
-        TerminalNotifier.notify(nc_options['message'],:title => nc_options['title'],:options => nc_options['name'])				
+        		TerminalNotifier.notify(growl_options['message'],
+        			:title => growl_options['title'],
+        			:options => growl_options['name'],
+        			:activate => 'com.apple.Safari',
+        			:open => 'http://gmail.com',
+        			:sound => 'default')			
 				
 			 	system("echo #{id} >> #{cache_file}")
 			 	system("tail -n 500 #{cache_file} > #{cache_file}.tmp")

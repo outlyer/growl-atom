@@ -8,7 +8,7 @@ end
 
 task :install => [:gem] do
 	# Install local gem
-	sh "gem install -l #{ncAtom::VERSION}.gem"
+	sh "gem install -l nc-atom-#{NCAtom::VERSION}.gem"
 end
 
 task :gem do
